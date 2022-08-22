@@ -1,9 +1,9 @@
-import 'package:twilio/exceptions/twilio_exception.dart';
+import 'package:twilio_dart/exceptions/twilio_exception.dart';
 
 class TwilioCredentialException extends TwilioException {
-  final String message;
+  const TwilioCredentialException(this.message);
 
-  TwilioCredentialException(this.message);
+  final String message;
 
   @override
   String toString() {

@@ -1,9 +1,9 @@
-import 'package:twilio/exceptions/twilio_network_exception.dart';
+import 'package:twilio_dart/exceptions/twilio_network_exception.dart';
 
 class TwilioResponseException extends TwilioNetworkException {
-  final int status;
+  const TwilioResponseException(this.status, String message) : super(message);
 
-  TwilioResponseException(this.status, String message) : super(message);
+  final int status;
 
   @override
   String toString() {

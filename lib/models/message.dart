@@ -1,26 +1,27 @@
 import 'package:intl/intl.dart';
 
 class Message {
-  final String from, to, body, direction;
-  final DateTime sendAt;
-
   Message(this.from, this.to, this.body, this.sendAt, this.direction);
 
-  static Message fromJSON(Map<String, dynamic> json) {
-    String from = json['from'].toString();
-    String to = json['to'].toString();
-    String body = json['body'].toString();
-    String dateSent = (json['date_sent'] ?? json['date_created']).toString();
-    DateTime sendAt = DateFormat("dd MMM y HH:mm:ss")
-        .parse(((dateSent.split(",")[1]).split("+")[0]).trim());
-    String direction = json['direction'].toString();
+  factory Message.fromJSON(Map<String, dynamic> json) {
+    final from = json['from'].toString();
+    final to = json['to'].toString();
+    final body = json['body'].toString();
+    final dateSent = (json['date_sent'] ?? json['date_created']).toString();
+    final sendAt = DateFormat('dd MMM y HH:mm:ss').parse(
+      ((dateSent.split(',')[1]).split('+')[0]).trim(),
+    );
+    final direction = json['direction'].toString();
     return Message(from, to, body, sendAt, direction);
   }
 
+  final String from, to, body, direction;
+  final DateTime sendAt;
+
   static List<Message> fromJSONList(List<dynamic> list) {
-    List<Message> messages = [];
-    for (Map<String, dynamic> json in list) {
-      messages.add(fromJSON(json));
+    final messages = <Message>[];
+    for (final json in list) {
+      messages.add(Message.fromJSON((json as Map).cast<String, dynamic>()));
     }
     return messages;
   }

@@ -1,14 +1,14 @@
-import 'message.dart';
+import 'package:twilio_dart/models/message.dart';
 
 class MessagesData {
-  final List<Message> messages;
+  const MessagesData(this.messages);
 
-  MessagesData(this.messages);
-
-  static MessagesData fromJSON(Map<String, dynamic> json) {
-    List<Message> messages = Message.fromJSONList(json["messages"]);
+  factory MessagesData.fromJSON(Map<String, dynamic> json) {
+    final messages = Message.fromJSONList(json['messages'] as List);
     return MessagesData(messages);
   }
+
+  final List<Message> messages;
 
   @override
   String toString() {

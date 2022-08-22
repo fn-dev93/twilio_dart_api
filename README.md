@@ -1,6 +1,6 @@
-# Twilio Flutter
+# Twilio Dart
 
-A Flutter package for both android and iOS which helps developers with Twilio API services.
+A Dart package which helps developers with Twilio API services.
 
 ## Features
 
@@ -8,21 +8,17 @@ A Flutter package for both android and iOS which helps developers with Twilio AP
 * Get all SMS related to a Twilio account;
 
 
-## Getting Started
+# Getting Started
 
 
-To use this package :
-
-- add the dependency to your pubspec.yaml file.
+Add the dependency to your pubspec.yaml file.
 
 ```yaml
 dependencies:
-  flutter:
-    sdk: flutter
-  twilio: ^0.0.1
+  twilio_dart: ^0.0.1
 ```
 
-### How to use
+## How to use
 
 
 #### Create a new Object
@@ -62,24 +58,7 @@ MessagesData messagesData = await twilio.getMessageList(
 twilio.credential.changeNumber('+.........'); // To change the twilio number
 ```
 
-## Supported Platforms
 
-* Android
-* iOS
-* Web
-* MacOs
-* Windows
-* Linux
+## Issues and feedback 💭
 
-
-## Issues
-
-Please file any issues, bugs or feature requests as an issue on our [GitHub](https://github.com/denishnavadiya123/Twilio/issues) page. Commercial support is available, you can contact us via [mail](mailto:denish@coderthemes.com).
-
-## Want to contribute
-
-If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), Send us your [pull request](https://github.com/denishnavadiya123/Twilio/pulls).
-
-## Author
-
-This Twilio package for Flutter is developed by [Coderthemes Design LLP](https://coderthemes.com/).
+If you have any suggestion for including a feature or if something doesn't work, feel free to open a Github [issue](https://github.com/NazarenoCavazzon/AppSize/issues) for us to have a discussion on it.

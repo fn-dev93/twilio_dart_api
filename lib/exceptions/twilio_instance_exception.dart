@@ -1,4 +1,4 @@
-import 'package:twilio/exceptions/twilio_exception.dart';
+import 'package:twilio_dart/exceptions/twilio_exception.dart';
 
 class TwilioInstanceException extends TwilioException {
   @override

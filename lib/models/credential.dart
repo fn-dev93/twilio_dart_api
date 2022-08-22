@@ -1,35 +1,39 @@
-import 'package:twilio/exceptions/twilio_credential_exception.dart';
-import 'package:twilio/utils/credential_utils.dart';
+import 'package:twilio_dart/exceptions/twilio_credential_exception.dart';
 
 class Credential {
-  late final String _accountSid, _authToken;
-  late String _twilioNumber, _cred;
-  static late Credential instance;
-
   Credential(String accountSid, String authToken, String twilioNumber) {
-    this._accountSid = accountSid;
-    this._authToken = authToken;
+    _accountSid = accountSid;
+    _authToken = authToken;
 
-    if (!CredentialUtil.isValidNumber(twilioNumber))
-      throw new TwilioCredentialException('$twilioNumber is not valid number');
+    if (isValidNumber(twilioNumber)) {
+      throw TwilioCredentialException('$twilioNumber is not valid number');
+    }
 
-    this._twilioNumber = twilioNumber;
+    _twilioNumber = twilioNumber;
     _cred = '$_accountSid:$_authToken';
     instance = this;
   }
 
+  late final String _accountSid, _authToken;
+  late String _twilioNumber, _cred;
+  static late Credential instance;
+  final regExp = RegExp(r'^\+[1-9]\d{1,14}$');
+
   String get accountSid => _accountSid;
 
+  bool isValidNumber(String number) => regExp.hasMatch(number);
+
   void changeNumber(String number) {
-    if (!CredentialUtil.isValidNumber(number))
-      throw new TwilioCredentialException('$number is not valid number');
+    if (isValidNumber(number)) {
+      throw TwilioCredentialException('$number is not valid number');
+    }
 
     _twilioNumber = number;
   }
 
-  get authToken => _authToken;
+  String get authToken => _authToken;
 
-  get twilioNumber => _twilioNumber;
+  String get twilioNumber => _twilioNumber;
 
-  get cred => _cred;
+  String get cred => _cred;
 }

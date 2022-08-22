@@ -1,62 +1,68 @@
 import 'dart:convert';
-
-import 'package:twilio/exceptions/message_failed_exception.dart';
-import 'package:twilio/models/credential.dart';
-import 'package:twilio/models/message.dart';
-import 'package:twilio/models/messages_data.dart';
-import 'package:twilio/services/network_service.dart';
-import 'package:twilio/utils/network_utils.dart';
+import 'package:twilio_dart/exceptions/message_failed_exception.dart';
+import 'package:twilio_dart/models/credential.dart';
+import 'package:twilio_dart/models/message.dart';
+import 'package:twilio_dart/models/messages_data.dart';
+import 'package:twilio_dart/services/network_service.dart';
 
 class MessageService {
-  Future<MessagesData?> getMessageList(
-      {int pageSize = 10, String? toNumber, String? fromNumber}) async {
-    String url = NetworkService.instance.url + '?PageSize=$pageSize';
+  static const int successCodeStart = 200;
+  static const int successCodeEnd = 299;
+
+  static bool statusInSuccess(int status) {
+    return status >= successCodeStart && status <= successCodeEnd;
+  }
+
+  Future<MessagesData?> getMessageList({
+    int pageSize = 10,
+    String? toNumber,
+    String? fromNumber,
+  }) async {
+    var url = '${NetworkService.instance.url}?PageSize=$pageSize';
     if (fromNumber != null) {
       url += '&From=$fromNumber';
     }
     if (toNumber != null) {
-      url += "&To=$toNumber";
+      url += '&To=$toNumber';
     }
-    NetworkResponse? response = await NetworkService.instance.get(url);
+    final response = await NetworkService.instance.get(url);
     if (response != null) {
-      Map<String, dynamic> responseMap = json.decode(response.body);
+      final responseMap = json.decode(response.body) as Map<String, dynamic>;
 
-      int? status = int.tryParse(responseMap['status'].toString());
-      if (status != null && !NetworkUtils.statusInSuccess(status)) {
-        throw new MessageFailedException(
-            status, responseMap['message'].toString());
+      final status = int.tryParse(responseMap['status'].toString());
+      if (status != null && statusInSuccess(status)) {
+        throw MessageFailedException(status, responseMap['message'].toString());
       }
 
-      MessagesData messagesData = MessagesData.fromJSON(responseMap);
+      final messagesData = MessagesData.fromJSON(responseMap);
 
       return messagesData;
     } else {
-      //TODO: Need to implement exception
+      throw Exception('Response is null');
     }
   }
 
-  Future<Message?> sendMessage(String toNumber, [String message = ""]) async {
-    String url = NetworkService.instance.url;
+  Future<Message?> sendMessage(String toNumber, [String message = '']) async {
+    final url = NetworkService.instance.url;
 
-    Map<String, String> body = {
+    final body = <String, String>{
       'From': Credential.instance.twilioNumber,
       'To': toNumber,
       'Body': message
     };
-    NetworkResponse? response = await NetworkService.instance.post(url, body);
+    final response = await NetworkService.instance.post(url, body);
     if (response != null) {
-      Map<String, dynamic> responseMap = json.decode(response.body);
+      final responseMap = json.decode(response.body) as Map<String, dynamic>;
 
-      int? status = int.tryParse(responseMap['status'].toString());
-      if (status != null && !NetworkUtils.statusInSuccess(status)) {
-        throw new MessageFailedException(
-            status, responseMap['message'].toString());
+      final status = int.tryParse(responseMap['status'].toString());
+      if (status != null && statusInSuccess(status)) {
+        throw MessageFailedException(status, responseMap['message'].toString());
       }
 
-      Message message = Message.fromJSON(responseMap);
+      final message = Message.fromJSON(responseMap);
       return message;
     } else {
-      //TODO: Need to implement exception
+      throw Exception('Response is null');
     }
   }
 }
