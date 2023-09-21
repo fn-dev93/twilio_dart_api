@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:twilio_dart/exceptions/message_failed_exception.dart';
 import 'package:twilio_dart/models/credential.dart';
 import 'package:twilio_dart/models/message.dart';
@@ -49,7 +48,7 @@ class MessageService {
 
       if (status == TwilioStatus.failed || status == TwilioStatus.undelivered) {
         throw MessageFailedException(
-          HttpStatus.badRequest,
+          400,
           responseMap['message'].toString(),
         );
       }
@@ -80,7 +79,7 @@ class MessageService {
 
       if (status == TwilioStatus.failed || status == TwilioStatus.undelivered) {
         throw MessageFailedException(
-          HttpStatus.badRequest,
+          400,
           responseMap['message'].toString(),
         );
       }
