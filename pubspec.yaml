@@ -1,13 +1,13 @@
 name: twilio_dart
 description: A Package that helps with twilio API. Supports to send twilio programmable SMS and retrive all messages data from twilio.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/NazarenoCavazzon/twilio_dart
 homepage: https://github.com/NazarenoCavazzon/twilio_dart
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
-dependencies:
+dependencies: 
   http: ^1.1.0
   intl: ^0.18.0
 
